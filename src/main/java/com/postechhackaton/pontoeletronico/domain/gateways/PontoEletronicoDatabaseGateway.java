@@ -11,6 +11,6 @@ public interface PontoEletronicoDatabaseGateway {
 
     PontoEletronicoEntity findById(String id);
 
-    List<PontoEletronico> findByUsuarioAndDataGreaterThan(String usuario, LocalDateTime startOfDay);
+    List<PontoEletronico> findByUsuarioAndDataBetween(String usuario, LocalDateTime startOfDay, LocalDateTime endOfDay);
 
 }

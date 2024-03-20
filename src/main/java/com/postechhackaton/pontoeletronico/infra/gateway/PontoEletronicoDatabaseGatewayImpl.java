@@ -37,7 +37,7 @@ public class PontoEletronicoDatabaseGatewayImpl implements PontoEletronicoDataba
     }
 
     @Override
-    public List<PontoEletronico> findByUsuarioAndDataGreaterThan(String usuario, LocalDateTime startOfDay) {
-        return pontoEletronicoRepository.findByUsuarioAndDataGreaterThan(usuario, startOfDay);
+    public List<PontoEletronico> findByUsuarioAndDataBetween(String usuario, LocalDateTime startOfDay, LocalDateTime endOfDay) {
+        return pontoEletronicoRepository.findByUsuarioAndDataBetween(usuario, startOfDay, endOfDay);
     }
 }

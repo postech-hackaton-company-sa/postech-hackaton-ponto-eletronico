@@ -7,7 +7,6 @@ import com.postechhackaton.pontoeletronico.business.exceptions.RegistroPontoExce
 import com.postechhackaton.pontoeletronico.domain.gateways.PontoEletronicoDatabaseGateway;
 import com.postechhackaton.pontoeletronico.domain.usecase.RegistrarPontoUseCase;
 import com.postechhackaton.pontoeletronico.infra.database.entities.PontoEletronico;
-import com.postechhackaton.pontoeletronico.infra.database.repositories.PontoEletronicoRepository;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
@@ -27,7 +26,8 @@ public class RegistrarPontoUseCaseImpl implements RegistrarPontoUseCase {
     @Override
     public PontoEletronicoEntity execute(String usuario) {
         LocalDateTime dataAtual = LocalDateTime.now().withHour(0).withMinute(0).withSecond(0).withNano(0);
-        List<PontoEletronico> registros = pontoEletronicoDatabaseGateway.findByUsuarioAndDataGreaterThan(usuario, dataAtual);
+        LocalDateTime dataAtualFimDia = LocalDateTime.now().withHour(23).withMinute(59).withSecond(59).withNano(59);
+        List<PontoEletronico> registros = pontoEletronicoDatabaseGateway.findByUsuarioAndDataBetween(usuario, dataAtual, dataAtualFimDia);
 
         validarHorarioEntrada(registros);
 

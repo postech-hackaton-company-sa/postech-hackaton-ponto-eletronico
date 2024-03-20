@@ -26,8 +26,9 @@ public class CalcularPontoUseCaseImpl implements CalcularPontoUseCase {
 
     @Override
     public PontoCalculadoDto execute(String usuario, LocalDate data) {
-        LocalDateTime dataRegistro = data.atStartOfDay();
-        List<PontoEletronico> registros = pontoEletronicoDatabaseGateway.findByUsuarioAndDataGreaterThan(usuario, dataRegistro);
+        LocalDateTime dataInicio = data.atStartOfDay();
+        LocalDateTime dataFim = data.plusDays(1).atStartOfDay();
+        List<PontoEletronico> registros = pontoEletronicoDatabaseGateway.findByUsuarioAndDataBetween(usuario, dataInicio, dataFim);
 
         if (registros == null || registros.size() % 2 != 0) {
             var listaRegistros = pontoEletronicoMapper.toDtoList(registros);

@@ -11,6 +11,6 @@ import java.util.UUID;
 @Repository
 public interface PontoEletronicoRepository extends MongoRepository<PontoEletronico, UUID> {
 
-    List<PontoEletronico> findByUsuarioAndDataGreaterThan(String usuario, LocalDateTime startOfDay);
+    List<PontoEletronico> findByUsuarioAndDataBetween(String usuario, LocalDateTime startOfDay, LocalDateTime endOfDay);
 
 }
