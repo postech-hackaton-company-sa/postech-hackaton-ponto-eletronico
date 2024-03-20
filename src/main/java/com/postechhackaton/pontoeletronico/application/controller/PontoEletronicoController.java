@@ -21,14 +21,14 @@ import java.time.LocalDate;
 public class PontoEletronicoController {
 
     private final RegistrarPontoUseCase registrarPontoUseCase;
-//    private final CalcularPontoUseCase calcularPontoUseCase;
+    private final CalcularPontoUseCase calcularPontoUseCase;
     private final PontoEletronicoMapper pontoEletronicoMapper;
 
     public PontoEletronicoController(RegistrarPontoUseCase registrarPontoUseCase,
-//                                     CalcularPontoUseCase calcularPontoUseCase,
+                                     CalcularPontoUseCase calcularPontoUseCase,
                                      PontoEletronicoMapper pontoEletronicoMapper) {
         this.registrarPontoUseCase = registrarPontoUseCase;
-//        this.calcularPontoUseCase = calcularPontoUseCase;
+        this.calcularPontoUseCase = calcularPontoUseCase;
         this.pontoEletronicoMapper = pontoEletronicoMapper;
     }
 
@@ -38,9 +38,9 @@ public class PontoEletronicoController {
         return pontoEletronicoMapper.toDto(pontoEletronico);
     }
 
-//    @GetMapping
-//    public PontoCalculadoDto calcularPonto(@RequestHeader("usuario") String usuario) {
-//        return calcularPontoUseCase.execute(usuario, LocalDate.now());
-//    }
+    @GetMapping
+    public PontoCalculadoDto calcularPonto(@RequestHeader("usuario") String usuario) {
+        return calcularPontoUseCase.execute(usuario, LocalDate.now());
+    }
 
 }

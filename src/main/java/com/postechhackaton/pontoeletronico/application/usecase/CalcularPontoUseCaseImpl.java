@@ -31,7 +31,7 @@ public class CalcularPontoUseCaseImpl implements CalcularPontoUseCase {
 
         if (registros == null || registros.size() % 2 != 0) {
             var listaRegistros = pontoEletronicoMapper.toDtoList(registros);
-            return new PontoCalculadoDto("inconsistente", null, usuario, listaRegistros);
+            return new PontoCalculadoDto("inconsistente", data, usuario, listaRegistros, 0);
         }
 
         registros.sort(Comparator.comparing(PontoEletronico::getData));
@@ -45,7 +45,7 @@ public class CalcularPontoUseCaseImpl implements CalcularPontoUseCase {
 
             if (ultimaSaida != null && entrada.isBefore(ultimaSaida)) {
                 var listaRegistros = pontoEletronicoMapper.toDtoList(registros);
-                return new PontoCalculadoDto("inconsistente", null, usuario, listaRegistros);
+                return new PontoCalculadoDto("inconsistente", data, usuario, listaRegistros, totalHorasTrabalhadas);
             }
 
             Duration duracao = Duration.between(entrada, saida);
@@ -56,9 +56,9 @@ public class CalcularPontoUseCaseImpl implements CalcularPontoUseCase {
 
         var listaRegistros = pontoEletronicoMapper.toDtoList(registros);
         if (totalHorasTrabalhadas < 8) {
-            return new PontoCalculadoDto("negativo", data, usuario, listaRegistros);
+            return new PontoCalculadoDto("negativo", data, usuario, listaRegistros, totalHorasTrabalhadas);
         }
-        return new PontoCalculadoDto("positivo", data, usuario, listaRegistros);
+        return new PontoCalculadoDto("positivo", data, usuario, listaRegistros, totalHorasTrabalhadas);
 
     }
 }
