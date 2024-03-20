@@ -13,6 +13,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
@@ -44,7 +45,7 @@ class PontoEletronicoControllerTestIT {
         mockMvc.perform(MockMvcRequestBuilders.post("/v1/ponto-eletronico")
                 .header("usuario", "usuario-teste")
                 .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk())
+                .andExpect(status().isCreated())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$.id").exists());
     }
@@ -54,7 +55,7 @@ class PontoEletronicoControllerTestIT {
         mockMvc.perform(MockMvcRequestBuilders.post("/v1/ponto-eletronico")
                         .header("usuario", "usuario-teste")
                         .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk())
+                .andExpect(status().isCreated())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$.id").exists())
                 .andExpect(jsonPath("$.tipo").value("ENTRADA"));
@@ -66,7 +67,7 @@ class PontoEletronicoControllerTestIT {
         mockMvc.perform(MockMvcRequestBuilders.post("/v1/ponto-eletronico")
                         .header("usuario", "usuario-teste")
                         .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk())
+                .andExpect(status().isCreated())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$.id").exists())
                 .andExpect(jsonPath("$.tipo").value("SAIDA"));
@@ -77,7 +78,7 @@ class PontoEletronicoControllerTestIT {
         mockMvc.perform(MockMvcRequestBuilders.post("/v1/ponto-eletronico")
                         .header("usuario", "usuario-teste")
                         .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk())
+                .andExpect(status().isCreated())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$.id").exists())
                 .andExpect(jsonPath("$.tipo").value("ENTRADA"));
@@ -100,6 +101,7 @@ class PontoEletronicoControllerTestIT {
 
         mockMvc.perform(MockMvcRequestBuilders.get("/v1/ponto-eletronico")
                 .header("usuario", "usuario-teste")
+                    .param("data", LocalDate.now().toString())
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
@@ -117,6 +119,7 @@ class PontoEletronicoControllerTestIT {
 
         mockMvc.perform(MockMvcRequestBuilders.get("/v1/ponto-eletronico")
                 .header("usuario", "usuario-teste")
+                    .param("data", LocalDate.now().toString())
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
@@ -133,6 +136,7 @@ class PontoEletronicoControllerTestIT {
 
         mockMvc.perform(MockMvcRequestBuilders.get("/v1/ponto-eletronico")
                         .header("usuario", "usuario-teste")
+                        .param("data", LocalDate.now().toString())
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
@@ -149,6 +153,7 @@ class PontoEletronicoControllerTestIT {
 
         mockMvc.perform(MockMvcRequestBuilders.get("/v1/ponto-eletronico")
                         .header("usuario", "usuario-teste")
+                        .param("data", LocalDate.now().toString())
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
@@ -159,6 +164,7 @@ class PontoEletronicoControllerTestIT {
     void calcularPonto_deveCalcularSaldoNegativo_quandoCalculoNaoTiverNenhumRegistro() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders.get("/v1/ponto-eletronico")
                         .header("usuario", "usuario-teste")
+                        .param("data", LocalDate.now().toString())
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
@@ -173,6 +179,7 @@ class PontoEletronicoControllerTestIT {
 
         mockMvc.perform(MockMvcRequestBuilders.get("/v1/ponto-eletronico")
                         .header("usuario", "usuario-teste")
+                        .param("data", LocalDate.now().toString())
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))

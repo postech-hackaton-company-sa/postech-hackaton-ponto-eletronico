@@ -6,7 +6,7 @@ on:
   pull_request:
     types: [opened, synchronize, reopened]
 jobs:
-  build:
+  checks:
     name: Build and analyze
     runs-on: ubuntu-latest
     steps:
@@ -35,3 +35,45 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: ./gradlew build sonar --info
+
+
+  build:
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main' && success()
+    needs: code_check
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Set Image Version
+        id: set_version
+        run: echo "IMAGE_VERSION=$(git rev-parse --short HEAD)" >> $GITHUB_ENV
+
+      - name: Login no docker hub
+        run: sudo docker login -u danielmaria -p ${{secrets.DOCKERHUB_TOKEN}}
+
+      - name: Build docker image
+        run: sudo docker build -t danielmaria/postech-ponto-eletronico:${{ env.IMAGE_VERSION }} .
+
+      - name: Publish image no DockerHub
+        run: |
+          sudo docker push danielmaria/postech-hackaton/postech-ponto-eletronico:${{ env.IMAGE_VERSION }}
+          sudo docker tag danielmaria/postech-hackaton/postech-ponto-eletronico:${{ env.IMAGE_VERSION }} danielmaria/postech-ponto-eletronico:latest
+          sudo docker push danielmaria/postech-hackaton/postech-ponto-eletronico:latest
+
+  deploy:
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main' && success()
+    needs: build_image
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Simulando Pull da Imagem do Docker Hub
+        run: echo "docker pull seurepositorio/postech-ponto-eletronico:latest"
+
+      - name: Simulando Configuração AWS CLI
+        run: echo "aws configure set aws_access_key_id ${{ secrets.AWS_ACCESS_KEY_ID }} && aws configure set aws_secret_access_key ${{ secrets.AWS_SECRET_ACCESS_KEY }} && aws configure set default.region us-east-1"
+
+      - name: Simulando Atualização do Manifesto do K8s
+        run: echo "kubectl set image deployment/postech-ponto-eletronico sua-container=danielmaria/postech-hackaton/postech-ponto-eletronico:latest"
