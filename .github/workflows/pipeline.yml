@@ -6,7 +6,7 @@ on:
   pull_request:
     types: [opened, synchronize, reopened]
 jobs:
-  checks:
+  code_check:
     name: Build and analyze
     runs-on: ubuntu-latest
     steps:
