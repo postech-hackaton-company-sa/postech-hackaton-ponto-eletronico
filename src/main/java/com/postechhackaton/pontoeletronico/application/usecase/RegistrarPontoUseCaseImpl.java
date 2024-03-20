@@ -4,6 +4,7 @@ import com.postechhackaton.pontoeletronico.application.mappers.PontoEletronicoMa
 import com.postechhackaton.pontoeletronico.business.entities.PontoEletronicoEntity;
 import com.postechhackaton.pontoeletronico.business.enums.TipoRegistroPontoEletronico;
 import com.postechhackaton.pontoeletronico.business.exceptions.RegistroPontoException;
+import com.postechhackaton.pontoeletronico.domain.gateways.PontoEletronicoDatabaseGateway;
 import com.postechhackaton.pontoeletronico.domain.usecase.RegistrarPontoUseCase;
 import com.postechhackaton.pontoeletronico.infra.database.entities.PontoEletronico;
 import com.postechhackaton.pontoeletronico.infra.database.repositories.PontoEletronicoRepository;
@@ -15,25 +16,25 @@ import java.util.List;
 @Component
 public class RegistrarPontoUseCaseImpl implements RegistrarPontoUseCase {
 
-    private final PontoEletronicoRepository pontoEletronicoRepository;
+    private final PontoEletronicoDatabaseGateway pontoEletronicoDatabaseGateway;
     private final PontoEletronicoMapper pontoEletronicoMapper;
 
-    public RegistrarPontoUseCaseImpl(PontoEletronicoRepository pontoEletronicoRepository, PontoEletronicoMapper pontoEletronicoMapper) {
-        this.pontoEletronicoRepository = pontoEletronicoRepository;
+    public RegistrarPontoUseCaseImpl(PontoEletronicoDatabaseGateway pontoEletronicoDatabaseGateway, PontoEletronicoMapper pontoEletronicoMapper) {
+        this.pontoEletronicoDatabaseGateway = pontoEletronicoDatabaseGateway;
         this.pontoEletronicoMapper = pontoEletronicoMapper;
     }
 
     @Override
     public PontoEletronicoEntity execute(String usuario) {
         LocalDateTime dataAtual = LocalDateTime.now().withHour(0).withMinute(0).withSecond(0).withNano(0);
-        List<PontoEletronico> registros = pontoEletronicoRepository.findByUsuarioAndDataGreaterThan(usuario, dataAtual);
+        List<PontoEletronico> registros = pontoEletronicoDatabaseGateway.findByUsuarioAndDataGreaterThan(usuario, dataAtual);
 
         validarHorarioEntrada(registros);
 
         TipoRegistroPontoEletronico tipoRegistro = obterTipoRegistro(registros);
 
-        PontoEletronico novoRegistro = pontoEletronicoMapper.toDocument(usuario, tipoRegistro);
-        PontoEletronico pontoEletronico = pontoEletronicoRepository.save(novoRegistro);
+        PontoEletronicoEntity novoRegistro = pontoEletronicoMapper.toEntity(usuario, tipoRegistro);
+        PontoEletronico pontoEletronico = pontoEletronicoDatabaseGateway.save(novoRegistro);
         return pontoEletronicoMapper.toEntity(pontoEletronico);
     }
 

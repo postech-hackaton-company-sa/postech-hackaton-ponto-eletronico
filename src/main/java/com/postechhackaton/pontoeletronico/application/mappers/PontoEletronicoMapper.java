@@ -20,7 +20,7 @@ public interface PontoEletronicoMapper {
 
     @Mapping(target = "id", expression = "java(UUID.randomUUID())")
     @Mapping(target = "data", expression = "java(java.time.LocalDateTime.now())")
-    PontoEletronico toDocument(String usuario, TipoRegistroPontoEletronico tipo);
+    PontoEletronicoEntity toEntity(String usuario, TipoRegistroPontoEletronico tipo);
 
     List<PontoEletronicoDto> toDtoList(List<PontoEletronico> registros);
 

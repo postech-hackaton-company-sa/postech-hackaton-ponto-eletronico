@@ -9,7 +9,7 @@ import java.util.List;
 public interface PontoEletronicoDatabaseGateway {
     PontoEletronico save(PontoEletronicoEntity pontoEletronico);
 
-    PontoEletronico findById(String id);
+    PontoEletronicoEntity findById(String id);
 
     List<PontoEletronico> findByUsuarioAndDataGreaterThan(String usuario, LocalDateTime startOfDay);
 

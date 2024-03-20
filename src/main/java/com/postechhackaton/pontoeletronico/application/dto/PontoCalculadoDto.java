@@ -20,4 +20,6 @@ public class PontoCalculadoDto {
     private String usuario;
 
     private List<PontoEletronicoDto> registros;
+
+    private long totalHorasTrabalhadas;
 }
