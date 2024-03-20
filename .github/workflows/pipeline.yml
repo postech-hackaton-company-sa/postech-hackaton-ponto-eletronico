@@ -56,7 +56,7 @@ jobs:
       - name: Publish image no DockerHub
         run: |
           sudo docker push danielmaria/postech-hackaton-ponto-eletronico:${{ env.IMAGE_VERSION }}
-          sudo docker tag danielmaria/postech-hackaton-ponto-eletronico:${{ env.IMAGE_VERSION }} danielmaria/postech-ponto-eletronico:latest
+          sudo docker tag danielmaria/postech-hackaton-ponto-eletronico:${{ env.IMAGE_VERSION }} danielmaria/postech-hackaton-ponto-eletronico:latest
           sudo docker push danielmaria/postech-hackaton-ponto-eletronico:latest
 
   deploy:
