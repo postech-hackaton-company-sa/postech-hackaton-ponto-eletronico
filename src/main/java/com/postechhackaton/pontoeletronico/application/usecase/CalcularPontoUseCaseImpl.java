@@ -29,7 +29,7 @@ public class CalcularPontoUseCaseImpl implements CalcularPontoUseCase {
         LocalDateTime dataRegistro = data.atStartOfDay();
         List<PontoEletronico> registros = pontoEletronicoDatabaseGateway.findByUsuarioAndDataGreaterThan(usuario, dataRegistro);
 
-        if (registros.size() % 2 != 0) {
+        if (registros == null || registros.size() % 2 != 0) {
             var listaRegistros = pontoEletronicoMapper.toDtoList(registros);
             return new PontoCalculadoDto("inconsistente", null, usuario, listaRegistros);
         }
