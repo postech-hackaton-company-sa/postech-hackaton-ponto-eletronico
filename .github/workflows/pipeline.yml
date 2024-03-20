@@ -1,10 +1,9 @@
-name: SonarCloud
+name: Java
+
 on:
   push:
-    branches:
-      - main
-  pull_request:
-    types: [opened, synchronize, reopened]
+  workflow_dispatch:
+
 jobs:
   code_check:
     name: Build and analyze
@@ -36,7 +35,6 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: ./gradlew build sonar --info
 
-
   build:
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/main' && success()
@@ -53,7 +51,7 @@ jobs:
         run: sudo docker login -u danielmaria -p ${{secrets.DOCKERHUB_TOKEN}}
 
       - name: Build docker image
-        run: sudo docker build -t danielmaria/postech-ponto-eletronico:${{ env.IMAGE_VERSION }} .
+        run: sudo docker build -t danielmaria/postech-hackaton/postech-ponto-eletronico:${{ env.IMAGE_VERSION }} .
 
       - name: Publish image no DockerHub
         run: |
