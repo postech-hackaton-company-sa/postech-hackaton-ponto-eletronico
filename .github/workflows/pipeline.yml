@@ -64,7 +64,7 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/main' && success()
-    needs: build_image
+    needs: build
     steps:
       - name: Checkout
         uses: actions/checkout@v2
