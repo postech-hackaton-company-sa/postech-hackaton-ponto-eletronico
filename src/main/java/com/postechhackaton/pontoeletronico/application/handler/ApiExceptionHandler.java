@@ -1,7 +1,6 @@
 package com.postechhackaton.pontoeletronico.application.handler;
 
 import com.postechhackaton.pontoeletronico.application.dto.ExceptionResponse;
-import com.postechhackaton.pontoeletronico.business.exceptions.NegocioException;
 import com.postechhackaton.pontoeletronico.business.exceptions.NotFoundException;
 import com.postechhackaton.pontoeletronico.business.exceptions.RegistroPontoException;
 import org.springframework.core.Ordered;
@@ -16,11 +15,6 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 @Order(Ordered.HIGHEST_PRECEDENCE)
 public class ApiExceptionHandler {
 
-    @ExceptionHandler(NegocioException.class)
-    public final ResponseEntity<ExceptionResponse> handleTo(NegocioException e) {
-        return new ResponseEntity<>(new ExceptionResponse(ExceptionResponse.ErrorType.PROCESS_FAILURE,
-                e.getMessage()), HttpStatus.UNPROCESSABLE_ENTITY);
-    }
     @ExceptionHandler(RegistroPontoException.class)
     public final ResponseEntity<ExceptionResponse> handleTo(RegistroPontoException e) {
         return new ResponseEntity<>(new ExceptionResponse(ExceptionResponse.ErrorType.VALIDATION_FAILURE,

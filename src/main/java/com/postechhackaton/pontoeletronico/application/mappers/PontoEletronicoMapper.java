@@ -25,4 +25,6 @@ public interface PontoEletronicoMapper {
     List<PontoEletronicoDto> toDtoList(List<PontoEletronico> registros);
 
     PontoEletronicoDto toDto(PontoEletronicoEntity pontoEletronico);
+
+    List<PontoEletronicoEntity> toEntityList(List<PontoEletronico> registros);
 }
