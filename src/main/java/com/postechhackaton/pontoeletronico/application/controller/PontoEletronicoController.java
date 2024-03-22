@@ -8,7 +8,6 @@ import com.postechhackaton.pontoeletronico.business.entities.PontoEletronicoEnti
 import com.postechhackaton.pontoeletronico.domain.usecase.CalcularPontoUseCase;
 import com.postechhackaton.pontoeletronico.domain.usecase.RegistrarPontoUseCase;
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -94,7 +93,7 @@ public class PontoEletronicoController {
                             )
                     }),
     })
-    public PontoCalculadoDto calcularPonto(@RequestHeader("usuario") String usuario, @RequestParam("data") LocalDate data) {
+    public PontoCalculadoDto calcularPonto(@RequestHeader("username") String usuario, @RequestParam("data") LocalDate data) {
         return calcularPontoUseCase.execute(usuario, data);
     }
 
