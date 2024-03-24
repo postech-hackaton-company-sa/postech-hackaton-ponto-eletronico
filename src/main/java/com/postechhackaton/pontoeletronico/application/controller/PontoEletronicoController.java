@@ -44,8 +44,8 @@ public class PontoEletronicoController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     @Operation(
-            summary = "Altera o status de um pagamento",
-            description = "Realiza uma alteracao do status do pagamento utilizando o id do mesmo."
+            summary = "Registra uma entrada no ponto eletronico",
+            description = "Registra uma entrada no ponto eletronico para o usuario que fez a requisicao."
     )
     @ApiResponses({
             @ApiResponse(responseCode = "201",
@@ -65,7 +65,7 @@ public class PontoEletronicoController {
                     )
             }),
     })
-    public PontoEletronicoDto registrarPonto(@RequestHeader("usuario") String usuario) {
+    public PontoEletronicoDto registrarPonto(@RequestHeader("username") String usuario) {
         PontoEletronicoEntity pontoEletronico = registrarPontoUseCase.execute(usuario);
         return pontoEletronicoMapper.toDto(pontoEletronico);
     }

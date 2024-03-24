@@ -68,10 +68,10 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Simulando Pull da Imagem do Docker Hub
-        run: echo "docker pull seurepositorio/postech-ponto-eletronico:latest"
+        run: echo "docker pull danielmaria/postech-ponto-eletronico:latest"
 
       - name: Simulando Configuração AWS CLI
         run: echo "aws configure set aws_access_key_id ${{ secrets.AWS_ACCESS_KEY_ID }} && aws configure set aws_secret_access_key ${{ secrets.AWS_SECRET_ACCESS_KEY }} && aws configure set default.region us-east-1"
 
       - name: Simulando Atualização do Manifesto do K8s
-        run: echo "kubectl set image deployment/postech-ponto-eletronico sua-container=danielmaria/postech-hackaton-ponto-eletronico:latest"
+        run: echo "kubectl set image deployment/postech-ponto-eletronico danielmaria=danielmaria/postech-hackaton-ponto-eletronico:latest"

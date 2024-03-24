@@ -43,7 +43,7 @@ class PontoEletronicoControllerTestIT {
     @Test
     void registrarPonto_deveRetornarPontoEletronicoDto_quandoReceberUsuario() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders.post("/v1/ponto-eletronico")
-                .header("usuario", "usuario-teste")
+                .header("username", "usuario-teste")
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isCreated())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
@@ -53,7 +53,7 @@ class PontoEletronicoControllerTestIT {
     @Test
     void registrarPonto_quandoRegistradoDuasVezesComUmPeriodoDeDuasHoras_deveRegistrarSaida() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders.post("/v1/ponto-eletronico")
-                        .header("usuario", "usuario-teste")
+                        .header("username", "usuario-teste")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isCreated())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
@@ -65,7 +65,7 @@ class PontoEletronicoControllerTestIT {
         pontoEletronicoRepository.save(registro);
 
         mockMvc.perform(MockMvcRequestBuilders.post("/v1/ponto-eletronico")
-                        .header("usuario", "usuario-teste")
+                        .header("username", "usuario-teste")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isCreated())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
@@ -76,7 +76,7 @@ class PontoEletronicoControllerTestIT {
     @Test
     void registrarPonto_quandoRegistradoDuasVezes_deveDarErro() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders.post("/v1/ponto-eletronico")
-                        .header("usuario", "usuario-teste")
+                        .header("username", "usuario-teste")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isCreated())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
@@ -84,7 +84,7 @@ class PontoEletronicoControllerTestIT {
                 .andExpect(jsonPath("$.tipo").value("ENTRADA"));
 
         mockMvc.perform(MockMvcRequestBuilders.post("/v1/ponto-eletronico")
-                        .header("usuario", "usuario-teste")
+                        .header("username", "usuario-teste")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isBadRequest())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
@@ -100,7 +100,7 @@ class PontoEletronicoControllerTestIT {
         pontoEletronicoRepository.save(stubPontoEletronico(LocalDateTime.now(), TipoRegistroPontoEletronico.SAIDA));
 
         mockMvc.perform(MockMvcRequestBuilders.get("/v1/ponto-eletronico")
-                .header("usuario", "usuario-teste")
+                .header("username", "usuario-teste")
                     .param("data", LocalDate.now().toString())
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
@@ -117,8 +117,10 @@ class PontoEletronicoControllerTestIT {
         pontoEletronicoRepository.save(stubPontoEletronico(LocalDateTime.now().minusHours(5), TipoRegistroPontoEletronico.ENTRADA));
         pontoEletronicoRepository.save(stubPontoEletronico(LocalDateTime.now(), TipoRegistroPontoEletronico.SAIDA));
 
+        pontoEletronicoRepository.findAll();
+
         mockMvc.perform(MockMvcRequestBuilders.get("/v1/ponto-eletronico")
-                .header("usuario", "usuario-teste")
+                .header("username", "usuario-teste")
                     .param("data", LocalDate.now().toString())
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
@@ -135,7 +137,7 @@ class PontoEletronicoControllerTestIT {
         pontoEletronicoRepository.save(stubPontoEletronico(LocalDateTime.now(), TipoRegistroPontoEletronico.SAIDA));
 
         mockMvc.perform(MockMvcRequestBuilders.get("/v1/ponto-eletronico")
-                        .header("usuario", "usuario-teste")
+                        .header("username", "usuario-teste")
                         .param("data", LocalDate.now().toString())
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
@@ -152,7 +154,7 @@ class PontoEletronicoControllerTestIT {
         pontoEletronicoRepository.save(stubPontoEletronico(LocalDateTime.now(), TipoRegistroPontoEletronico.SAIDA));
 
         mockMvc.perform(MockMvcRequestBuilders.get("/v1/ponto-eletronico")
-                        .header("usuario", "usuario-teste")
+                        .header("username", "usuario-teste")
                         .param("data", LocalDate.now().toString())
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
@@ -163,7 +165,7 @@ class PontoEletronicoControllerTestIT {
     @Test
     void calcularPonto_deveCalcularSaldoNegativo_quandoCalculoNaoTiverNenhumRegistro() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders.get("/v1/ponto-eletronico")
-                        .header("usuario", "usuario-teste")
+                        .header("username", "usuario-teste")
                         .param("data", LocalDate.now().toString())
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
@@ -178,7 +180,7 @@ class PontoEletronicoControllerTestIT {
         pontoEletronicoRepository.save(stubPontoEletronico(LocalDateTime.now().minusHours(3), TipoRegistroPontoEletronico.ENTRADA));
 
         mockMvc.perform(MockMvcRequestBuilders.get("/v1/ponto-eletronico")
-                        .header("usuario", "usuario-teste")
+                        .header("username", "usuario-teste")
                         .param("data", LocalDate.now().toString())
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
