@@ -7,11 +7,15 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.postechhackaton.pontoeletronico.infra.database.entities.PontoEletronico;
 import com.postechhackaton.pontoeletronico.infra.database.repositories.PontoEletronicoRepository;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Component;
 import org.springframework.util.ResourceUtils;
+import org.springframework.util.StreamUtils;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.text.SimpleDateFormat;
 import java.util.List;
@@ -38,11 +42,12 @@ public class MongoDBDataLoader implements CommandLineRunner {
     }
 
     private void loadInitialData() throws IOException {
-        File file = ResourceUtils.getFile("classpath:data.json");
-        String content = new String(Files.readAllBytes(file.toPath()));
+        InputStream inputStream = new ClassPathResource("data.json").getInputStream();
+        String content = StreamUtils.copyToString(inputStream, StandardCharsets.UTF_8);
 
         List<PontoEletronico> pontos = objectMapper.readValue(content, new TypeReference<>() {});
         pontos.forEach(p -> p.setId(UUID.randomUUID()));
         pontoEletronicoRepository.insert(pontos);
+        inputStream.close();
     }
 }
