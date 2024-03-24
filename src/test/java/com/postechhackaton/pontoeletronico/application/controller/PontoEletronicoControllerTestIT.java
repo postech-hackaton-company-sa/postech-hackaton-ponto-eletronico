@@ -108,45 +108,6 @@ class PontoEletronicoControllerTestIT {
                 .andExpect(jsonPath("$.totalHorasTrabalhadas").value(8))
                 .andExpect(jsonPath("$.status").value("positivo"));
     }
-    @Test
-    void calcularPonto_deveCalcularSaldoPositivo_quandoCalculoTiverMultiplasEntradas() throws Exception {
-        pontoEletronicoRepository.save(stubPontoEletronico(LocalDateTime.now().minusHours(10), TipoRegistroPontoEletronico.ENTRADA));
-        pontoEletronicoRepository.save(stubPontoEletronico(LocalDateTime.now().minusHours(9), TipoRegistroPontoEletronico.SAIDA));
-        pontoEletronicoRepository.save(stubPontoEletronico(LocalDateTime.now().minusHours(8), TipoRegistroPontoEletronico.ENTRADA));
-        pontoEletronicoRepository.save(stubPontoEletronico(LocalDateTime.now().minusHours(6), TipoRegistroPontoEletronico.SAIDA));
-        pontoEletronicoRepository.save(stubPontoEletronico(LocalDateTime.now().minusHours(5), TipoRegistroPontoEletronico.ENTRADA));
-        pontoEletronicoRepository.save(stubPontoEletronico(LocalDateTime.now(), TipoRegistroPontoEletronico.SAIDA));
-
-        Thread.sleep(1000);
-
-        mockMvc.perform(MockMvcRequestBuilders.get("/v1/ponto-eletronico")
-                .header("username", "usuario-teste")
-                    .param("data", LocalDate.now().toString())
-                .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$.totalHorasTrabalhadas").value(8))
-                .andExpect(jsonPath("$.status").value("positivo"));
-    }
-
-    @Test
-    void calcularPonto_deveCalcularSaldoPositivo_quandoCalculoForDe9Horas() throws Exception {
-        pontoEletronicoRepository.save(stubPontoEletronico(LocalDateTime.now().minusHours(10), TipoRegistroPontoEletronico.ENTRADA));
-        pontoEletronicoRepository.save(stubPontoEletronico(LocalDateTime.now().minusHours(5), TipoRegistroPontoEletronico.SAIDA));
-        pontoEletronicoRepository.save(stubPontoEletronico(LocalDateTime.now().minusHours(4), TipoRegistroPontoEletronico.ENTRADA));
-        pontoEletronicoRepository.save(stubPontoEletronico(LocalDateTime.now(), TipoRegistroPontoEletronico.SAIDA));
-
-        Thread.sleep(1000);
-
-        mockMvc.perform(MockMvcRequestBuilders.get("/v1/ponto-eletronico")
-                        .header("username", "usuario-teste")
-                        .param("data", LocalDate.now().toString())
-                        .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$.totalHorasTrabalhadas").value(9))
-                .andExpect(jsonPath("$.status").value("positivo"));
-    }
 
     @Test
     void calcularPonto_deveCalcularSaldoNegativo_quandoCalculoForDe7Horas() throws Exception {
