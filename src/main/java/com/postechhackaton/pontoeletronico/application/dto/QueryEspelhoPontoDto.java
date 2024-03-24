@@ -14,6 +14,8 @@ import java.util.List;
 @Getter
 @Setter
 public class QueryEspelhoPontoDto {
+    private String usuarioRequerinte;
+
     private String usuario;
 
     private String email;
