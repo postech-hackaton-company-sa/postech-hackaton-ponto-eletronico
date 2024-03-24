@@ -9,14 +9,11 @@ import com.postechhackaton.pontoeletronico.infra.database.repositories.PontoElet
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Component;
-import org.springframework.util.ResourceUtils;
 import org.springframework.util.StreamUtils;
 
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
 import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.UUID;
@@ -42,7 +39,7 @@ public class MongoDBDataLoader implements CommandLineRunner {
     }
 
     private void loadInitialData() throws IOException {
-        InputStream inputStream = new ClassPathResource("data.json").getInputStream();
+        InputStream inputStream = new ClassPathResource("json/data.json").getInputStream();
         String content = StreamUtils.copyToString(inputStream, StandardCharsets.UTF_8);
 
         List<PontoEletronico> pontos = objectMapper.readValue(content, new TypeReference<>() {});
