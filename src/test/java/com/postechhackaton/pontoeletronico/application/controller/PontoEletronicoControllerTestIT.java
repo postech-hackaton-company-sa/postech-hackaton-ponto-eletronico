@@ -117,7 +117,7 @@ class PontoEletronicoControllerTestIT {
         pontoEletronicoRepository.save(stubPontoEletronico(LocalDateTime.now().minusHours(5), TipoRegistroPontoEletronico.ENTRADA));
         pontoEletronicoRepository.save(stubPontoEletronico(LocalDateTime.now(), TipoRegistroPontoEletronico.SAIDA));
 
-        pontoEletronicoRepository.findAll();
+        Thread.sleep(1000);
 
         mockMvc.perform(MockMvcRequestBuilders.get("/v1/ponto-eletronico")
                 .header("username", "usuario-teste")
@@ -135,6 +135,8 @@ class PontoEletronicoControllerTestIT {
         pontoEletronicoRepository.save(stubPontoEletronico(LocalDateTime.now().minusHours(5), TipoRegistroPontoEletronico.SAIDA));
         pontoEletronicoRepository.save(stubPontoEletronico(LocalDateTime.now().minusHours(4), TipoRegistroPontoEletronico.ENTRADA));
         pontoEletronicoRepository.save(stubPontoEletronico(LocalDateTime.now(), TipoRegistroPontoEletronico.SAIDA));
+
+        Thread.sleep(1000);
 
         mockMvc.perform(MockMvcRequestBuilders.get("/v1/ponto-eletronico")
                         .header("username", "usuario-teste")
